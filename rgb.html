@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGB Color Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #4e54c8, #8f94fb);
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 500px;
+            box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.4);
+            background-color: aliceblue;
+            padding: 40px;
+            border-radius: 5px;
+        }
+
+        .container h1 {
+            color: #333;
+            text-decoration: underline;
+            margin-bottom: 36px;
+        }
+
+        .color-box {
+            width: 380px;
+            height: 200px;
+            margin-bottom: 20px;
+            background: #333;
+            border-radius: 4px;
+        }
+
+        .sliders {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: self-end;
+        }
+
+        .slider {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        label {
+            margin-right: 5px;
+        }
+
+        input[type="range"] {
+            width: 200px;
+            margin-right: 5px;
+        }
+
+        span {
+            font-weight: bold;
+            width: 30px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .button-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .input-type-value {
+            padding: 10px 20px;
+            background-color: #ebe1e1;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            display: inline-block;
+            text-align: center;
+            width: 180px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>RGB Color Generator</h1>
+        <div class="color-box" id="color-box"></div>
+        <div class="sliders">
+            <div class="slider">
+                <label for="redSlider">Red:</label>
+                <input type="range" id="redSlider" min="0" max="255">
+                <span id="redValue">0</span>
+            </div>
+
+            <div class="slider">
+                <label for="greenSlider">Green:</label>
+                <input type="range" id="greenSlider" min="0" max="255">
+                <span id="greenValue">0</span>
+            </div>
+
+            <div class="slider">
+                <label for="blueSlider">Blue:</label>
+                <input type="range" id="blueSlider" min="0" max="255">
+                <span id="blueValue">0</span>
+            </div>
+        </div>
+        <div class="button-container">
+            <button id="copyButton">Copy RGB Value</button>
+            <div id="inputType" class="input-type-value">rgb(255,128,155)</div>
+        </div>
+    </div>
+    <script>
+        const redSlider = document.getElementById("redSlider");
+        const greenSlider = document.getElementById("greenSlider");
+        const blueSlider = document.getElementById("blueSlider");
+
+        const redValueSpan = document.getElementById("redValue");
+        const greenValueSpan = document.getElementById("greenValue");
+        const blueValueSpan = document.getElementById("blueValue");
+
+        const colorBox = document.getElementById("color-box");
+        const copyButton = document.getElementById("copyButton");
+        const inputTypeRGBValue = document.getElementById("inputType");
+
+        redSlider.addEventListener('input', updateColor);
+        greenSlider.addEventListener('input', updateColor);
+        blueSlider.addEventListener('input', updateColor);
+        copyButton.addEventListener('click', copyRGBValue);
+
+        function updateColor() {
+            const redValue = redSlider.value;
+            const greenValue = greenSlider.value;
+            const blueValue = blueSlider.value;
+
+            const rgbcolor = `rgb(${redValue}, ${greenValue}, ${blueValue})`;
+
+            colorBox.style.background = rgbcolor;
+
+            redValueSpan.textContent = redValue;
+            greenValueSpan.textContent = greenValue;
+            blueValueSpan.textContent = blueValue;
+
+            inputTypeRGBValue.textContent = rgbcolor;
+        }
+
+        updateColor();
+
+        function copyRGBValue() {
+            const redValue = redSlider.value;
+            const greenValue = greenSlider.value;
+            const blueValue = blueSlider.value;
+
+            const rgbcolor = `rgb(${redValue}, ${greenValue}, ${blueValue})`;
+
+            navigator.clipboard.writeText(rgbcolor)
+                .then(() => {
+                    alert("RGB Color Value copied to Clipboard: " + rgbcolor);
+                })
+                .catch((error) => {
+                    console.error("Failed to copy RGB Values", error);
+                });
+        }
+    </script>
+</body>
+</html>
