@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palindrome Checker Application</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 100px auto;
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 20px;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 95%;
+            padding: 10px;
+            margin-top: 20px;
+            border: none;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fadeIn {
+            animation: fadeIn 0.5s ease-in;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Palindrome Checker</h1>
+        <input type="text" id="inputText" placeholder="Enter a Word">
+        <button id="checkButton">Check</button>
+        <div id="result">Result</div>
+    </div>
+    <script>
+        // Function to check if a string is a palindrome
+        function isPalindrome(str) {
+            // Clean the string: convert to lowercase and remove non-alphanumeric characters
+            const cleanStr = str.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+            // Reverse the cleaned string
+            const reversedStr = cleanStr.split('').reverse().join('');
+
+            // Compare the cleaned string with its reversed version
+            return cleanStr === reversedStr;
+        }
+
+        // Function to handle the palindrome checking process
+        function palindromeChecker() {
+            // Get the input field and result display element
+            const inputText = document.getElementById("inputText");
+            const result = document.getElementById("result");
+
+            // Check if input is empty
+            if (inputText.value.trim() === "") {
+                result.textContent = "Please enter a word.";
+                result.classList.add('fadeIn');
+                return; // Stop further execution if input is empty
+            }
+
+            // Check if the input value is a palindrome
+            if (isPalindrome(inputText.value)) {
+                result.textContent = `"${inputText.value}" is a Palindrome.`;
+            } else {
+                result.textContent = `"${inputText.value}" is Not a Palindrome.`;
+            }
+
+            // Add a fade-in effect to the result text
+            result.classList.add('fadeIn');
+
+            // Clear the input field after checking
+            inputText.value = "";
+        }
+
+        // Attach the palindrome checking function to the button click event
+        document.getElementById('checkButton').addEventListener("click", palindromeChecker);
+    </script>
+</body>
+</html>
