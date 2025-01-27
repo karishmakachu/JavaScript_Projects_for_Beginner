@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #4f4657;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 150px auto;
+            padding: 20px;
+            background-color: #252525;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0,0, 0, 0.4);
+        }
+
+        h1 {
+            text-align: center;
+            color: #FFFFFF;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f2f2f2;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #FFFFFF;
+            font-weight: bold;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 94%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #c50752;
+            border-radius: 5px;
+            background-color: #252525;
+            color: #FFFFFF;
+        }
+
+        .input-group select {
+            width: 100%;
+        }
+
+        .input-group input::-webkit-outer-spin-button,
+        .input-group input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #7e0541;
+        }
+
+        .result {
+            margin-top: 30px;
+            border-top: 2px solid #f2f2f2;
+            padding-top: 20px;
+        }
+
+        .result h2 {
+            margin-bottom: 15px;
+            color: #FFFFFF;
+        }
+
+        .result div {
+            margin-bottom: 10px;
+            color: #FFFFFF;
+        }
+
+        #calculatorBtn {
+            padding: 12px 20px;
+            background-color: #c50752;
+            border-radius: 5px;
+            border: none;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #calculatorBtn:hover {
+            background-color: #53031b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tip Calculator</h1>
+        <div class="input-group">
+            <label for="billAmount">Bill Amount:</label>
+            <input type="number" id="billAmount" placeholder="Enter the Bill Amount" />
+        </div>
+
+        <div class="input-group">
+            <label for="serviceRating">Service Rating:</label>
+            <select id="serviceRating">
+                <option value="1">Poor</option>
+                <option value="2">Average</option>
+                <option value="3">Good</option>
+                <option value="4">Excellent</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="splitCount">Number of People:</label>
+            <input type="number" id="splitCount" placeholder="Enter the number of people" />
+        </div>
+
+        <div class="input-group">
+            <label for="mealType">Meal Type:</label>
+            <select id="mealType">
+                <option value="breakfast">Breakfast</option>
+                <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
+            </select>
+        </div>
+
+        <div class="result">
+            <h2>Result</h2>
+            <div id="tipAmount"></div>
+            <div id="totalAmount"></div>
+            <div id="amountPerPerson"></div>
+        </div>
+
+        <button id="calculatorBtn">Calculate</button>
+    </div>
+
+    <script>
+        function calculateTip() {
+            // Get input values
+            const billAmountInput = document.getElementById("billAmount");
+            const serviceRatingSelect = document.getElementById("serviceRating");
+            const splitCountInput = document.getElementById("splitCount");
+            const mealTypeSelect = document.getElementById("mealType");
+
+            const tipAmountOutput = document.getElementById("tipAmount");
+            const totalAmountOutput = document.getElementById("totalAmount");
+            const amountPerPersonOutput = document.getElementById("amountPerPerson");
+
+            // Parse input values
+            const billAmount = parseFloat(billAmountInput.value);
+            const serviceRating = parseFloat(serviceRatingSelect.value);
+            const splitCount = parseInt(splitCountInput.value);
+            const mealType = mealTypeSelect.value;
+
+            // Validate inputs
+            if (isNaN(billAmount) || isNaN(serviceRating) || isNaN(splitCount) || splitCount <= 0) {
+                tipAmountOutput.textContent = "Please enter valid numbers.";
+                totalAmountOutput.textContent = "";
+                amountPerPersonOutput.textContent = "";
+                return;
+            }
+
+            // Calculate tip based on service rating
+            let tip = 0;
+            switch (serviceRating) {
+                case 1:
+                    tip = billAmount * 0.05;
+                    break;
+                case 2:
+                    tip = billAmount * 0.1;
+                    break;
+                case 3:
+                    tip = billAmount * 0.15;
+                    break;
+                case 4:
+                    tip = billAmount * 0.2;
+                    break;
+            }
+
+            // Calculate total amount and amount per person
+            let totalAmount = billAmount + tip;
+            if (mealType === "dinner") {
+                totalAmount += 5; // Add $5 for dinner
+                tip += 5; // Add $5 to the tip as well
+            }
+            const amountPerPerson = totalAmount / splitCount;
+
+            // Display results
+            tipAmountOutput.textContent = `Tip: $${tip.toFixed(2)}`;
+            totalAmountOutput.textContent = `Total Amount: $${totalAmount.toFixed(2)}`;
+            amountPerPersonOutput.textContent = `Amount Per Person: $${amountPerPerson.toFixed(2)}`;
+        }
+
+        // Attach the event listener
+        document.getElementById("calculatorBtn").addEventListener("click", calculateTip);
+    </script>
+</body>
+</html>
